@@ -8,7 +8,7 @@ public class DbConnection {
     private static String HOST="localhost";
     private static String USER="root";
     private static String PASSWORD="root";
-    private static String PORT="3307";
+    private static String PORT="3306";
     private static Connection con = null;
     private static String URL = "jdbc:mysql://" + HOST+":"+PORT+"/"+DB;
 

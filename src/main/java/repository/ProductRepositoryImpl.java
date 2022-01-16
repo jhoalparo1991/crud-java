@@ -22,7 +22,11 @@ public class ProductRepositoryImpl implements repository<Product> {
                 ResultSet rs = st.executeQuery("SELECT * FROM product");
                 ){
                 while(rs.next()){
-                    Product p = new Product(rs.getLong("id"),rs.getString("name"),rs.getDouble("price"));
+                    Product p = new Product(
+                            rs.getLong("id"),
+                            rs.getString("name"),
+                            rs.getDouble("price"),
+                            rs.getLong("category_id"));
                     products.add(p);
                 }
         }catch (SQLException e){
@@ -40,7 +44,11 @@ public class ProductRepositoryImpl implements repository<Product> {
             st.setLong(1,id);
             ResultSet rs = st.executeQuery();
             if(rs.next()){
-                product = new Product(rs.getLong("id"),rs.getString("name"),rs.getDouble("price"));
+                product = new Product(
+                        rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getLong("category_id"));
             }
         }catch (SQLException e){
             System.out.println("e = " + e.getMessage());
@@ -53,17 +61,18 @@ public class ProductRepositoryImpl implements repository<Product> {
         String sql = "";
         try {
             if(product.getId() > 0 && product.getId() != null){
-                sql = "UPDATE product SET name=?,price=? WHERE id=?";
+                sql = "UPDATE product SET category_id=?, name=?,price=? WHERE id=?";
             }else{
-                sql = "INSERT INTO product(name,price) values(?,?)";
+                sql = "INSERT INTO product(name,price,category_id) values(?,?,?)";
             }
 
             PreparedStatement ps = getConnection().prepareStatement(sql);
             if(product.getId() > 0){
-                ps.setLong(3,product.getId());
+                ps.setLong(4,product.getId());
             }
             ps.setString(1,product.getName());
             ps.setDouble(2,product.getPrice());
+            ps.setLong(3,product.getCategory_id());
             int result = ps.executeUpdate();
             if(result != 0){
                 System.out.println("Registro guardado con exito");
