@@ -8,7 +8,7 @@ create table if not exists users(
 	id int primary key auto_increment,
     fullname varchar(100)  not null,
     email varchar(100) not null unique,
-    price decimal(18,2) not null,
+    password varchar(100) not null,
     createdAt timestamp default now()    
 )engine=InnoDB;
 
@@ -30,4 +30,3 @@ add constraint fk_product_category
 foreign key(category_id) references category(id)
 on update cascade
 on delete cascade
-    
